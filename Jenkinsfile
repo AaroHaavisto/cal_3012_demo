@@ -17,7 +17,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/ADirin/lectDemo_1_f2026.git'
+                git 'https://github.com/AaroHaavisto/cal_3012_demo.git'
             }
         }
 
