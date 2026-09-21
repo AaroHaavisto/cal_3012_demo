@@ -1,34 +1,67 @@
+
 pipeline {
     agent any
 
     tools {
         maven 'Maven3'
-        jdk 'jdk-21.0.12'
+    }
+
+    environment {
+        PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
+        DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
+        DOCKERHUB_REPO = 'amirdirin/demo1_2026'
+        DOCKER_IMAGE_TAG = 'latest'
     }
 
     stages {
-        stage('check') {
+
+        stage('Checkout') {
             steps {
-                git 'https://github.com/AaroHaavisto/cal_3012_demo'
+                git 'https://github.com/ADirin/lectDemo_1_f2026.git'
             }
         }
 
-        stage('build') {
+        stage('Run Tests') {
             steps {
-                bat 'mvn clean install'
+                bat 'mvn clean test'
             }
         }
 
-        stage('test') {
+        stage('Code Coverage') {
             steps {
-                bat 'mvn test'
+                bat 'mvn jacoco:report'
             }
         }
 
-        stage('jacoco') {
+        stage('Publish Test Results') {
             steps {
-                jacoco(path: 'target/site/jacoco/jacoco.xml')
+                junit '**/target/surefire-reports/*.xml'
             }
         }
+
+        stage('Publish Coverage Report') {
+            steps {
+                jacoco()
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}")
+                }
+            }
+        }
+
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS_ID) {
+                        docker.image("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}").push()
+                    }
+                }
+            }
+        }
+
     }
 }
