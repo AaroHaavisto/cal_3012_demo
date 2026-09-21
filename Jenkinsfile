@@ -1,28 +1,32 @@
 pipeline {
     agent any
+
     tools {
         maven 'Maven3'
     }
+
     stages {
-        stage ('check'){
-            steps{
+        stage('check') {
+            steps {
                 git 'https://github.com/AaroHaavisto/cal_3012_demo'
             }
         }
-        stage ('build'){
-            steps{
+
+        stage('build') {
+            steps {
                 bat 'mvn clean install'
             }
         }
 
         stage('test') {
-            steps{
+            steps {
                 bat 'mvn test'
             }
         }
-        stage('jacoco'){
-            steps{
-                jacoco()
+
+        stage('jacoco') {
+            steps {
+                jacoco(path: 'target/site/jacoco/jacoco.xml')
             }
         }
     }
