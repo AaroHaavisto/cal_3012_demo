@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -12,7 +11,6 @@ pipeline {
         DOCKERHUB_CREDENTIALS_ID = 'docker_ID'
         DOCKERHUB_REPO = 'AaroHaavisto/cal_3012_demo'
         DOCKER_IMAGE_TAG = 'latest'
-    }
     }
 
     stages {
