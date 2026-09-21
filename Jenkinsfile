@@ -9,7 +9,7 @@ pipeline {
     environment {
         PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
         DOCKERHUB_CREDENTIALS_ID = 'docker_ID'
-        DOCKERHUB_REPO = 'AaroHaavisto/cal_3012_demo'
+        DOCKERHUB_REPO = 'aarohaavisto/cal_3012_demo'
         DOCKER_IMAGE_TAG = 'latest'
     }
 
@@ -17,7 +17,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/AaroHaavisto/cal_3012_demo.git'
+                git 'https://github.com/aarohaavisto/cal_3012_demo.git'
             }
         }
 
