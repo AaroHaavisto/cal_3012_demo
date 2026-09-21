@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage ('check'){
             steps{
-                git 'https://github.com/ADirin/cal_3012_demo.git'
+                git 'https://github.com/AaroHaavisto/cal_3012_demo'
             }
         }
         stage ('build'){
